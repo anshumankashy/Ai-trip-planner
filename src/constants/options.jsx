@@ -51,5 +51,5 @@ export const SelectBudgetOptions=[
     },
 ]
 
-export const AI_PROMPT='Generate Trvel Plan for Location: {location}'
+export const AI_PROMPT='Generate Trvel Plan for Location: {location} for {totalDays} days for {travelers} travelers with {budget} budget. Include the following: 1. Itinerary 2. Activities 3. Food 4. Travel Tips.'
 
