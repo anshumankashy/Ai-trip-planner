@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import Header from './components/ui/Custom/Header'
+import Hero from './components/ui/Custom/Hero'
+import CreateTrip from './create-trip'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-       {/* Hero  */}
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<Hero />} />
+        <Route path="/create-trip" element={<CreateTrip />} />
+      </Routes>
     </>
   )
 }
