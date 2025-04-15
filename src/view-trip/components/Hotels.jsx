@@ -6,7 +6,6 @@ function Hotels({ trip }) {
   return (
      <div>
           <img src="/placeholder.jpg" className='h-[340px] w-full object-cover rounded-lg' />
-    
         </div>
       )
     }
