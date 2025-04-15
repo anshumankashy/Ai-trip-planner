@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import React from 'react'
-import { IoIoSend } from 'react-icons/io'
+import { IoSend } from "react-icons/io5";
+
 
 function InfoSection({trip}) {
   return (
@@ -17,7 +18,7 @@ function InfoSection({trip}) {
           <h2 className='p-1 px-3 bg-gray-300 rounded-lg text-sm'>🧑  No. of Travellers: {trip.userSelection?.travelers}</h2>
         </div>
       </div>
-      <Button> <IoIoSend/> </Button>
+      <Button> <IoSend/></Button>
     </div>
     </div>
   )
