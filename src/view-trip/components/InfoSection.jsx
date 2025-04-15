@@ -6,7 +6,7 @@ import { IoSend } from "react-icons/io5";
 function InfoSection({trip}) {
   return (
     <div>
-      <img src="/placeholder.jpg" className='h-[340px] w-full object-cover rounded-lg' />
+      <img src="/placeholde.jpg" className='h-[340px] w-full object-cover rounded-lg' />
 
 <div className='flex justify-between items-center'>
       <div className='my-5 flex flex-col gap-2'>

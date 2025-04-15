@@ -25,6 +25,13 @@ function ViewTrip() {
       console.log("No Such Document");
       toast("No Trip Found");
     }
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      console.log("🔥 Trip Data:", data); // ADD THIS
+      setTrip(data);
+    }
+    
   };
 
   return (
