@@ -4,6 +4,8 @@ import Hero from './components/ui/Custom/Hero';
 import CreateTrip from './create-trip';
 import { Toaster } from './components/ui/sonner';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ViewTrip from './view-trip/[tripId]';
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/create-trip" element={<CreateTrip />} />
+        <Route path="/create-trip/view-trip/:tripId" element={<ViewTrip />} /> {/* ✅ with JSX */}
       </Routes>
     </GoogleOAuthProvider>
   );
