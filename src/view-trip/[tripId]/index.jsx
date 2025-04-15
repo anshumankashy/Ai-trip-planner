@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import InfoSection from '../components/InfoSection';
+import { Hotel } from 'lucide-react';
+import Hotels from '../components/Hotels';
 
 function ViewTrip() {
   const { tripId } = useParams();
@@ -31,6 +33,7 @@ function ViewTrip() {
       {/* Information Section */}
       <InfoSection trip={trip}/>
       {/* Recommanded Hotel */}
+          <Hotels trip={trip}/>
       {/* Daily Plan */}
       {/* Footer */}
     </div>
