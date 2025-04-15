@@ -1,56 +1,173 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// To run this code you need to install the following dependencies:
+// npm install @google/genai mime
+// npm install -D @types/node
 
+import {
+  GoogleGenAI,
+} from '@google/genai';
 
-
-const apiKey = import.meta.env.VITE_GOOGLE_GEMINI_AI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
-});
-
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 40,
-  maxOutputTokens: 8192,
-  responseModalities: [
-  ],
-  responseMimeType: "application/json",
-};
-
-
-  export const chatSession = model.startChat({
-    generationConfig,
-    history: [
-      {
-        role: "user",
-        parts: [
-          {text: "Generate Travel Plan for Location: Las Vegas, for 3 Days for Couple with a Cheap budget, Give me a Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating,Time  travel each of the location for 3 days with each day plan with best time to visit in JSON format."},
-        ],
-      },
-      {
-        role: "model",
-        parts: [
-          {text: "Okay, here's a JSON format travel plan for a couple's budget-friendly 3-day trip to Las Vegas, along with hotel options and itinerary suggestions.  I've focused on balancing popular attractions with cost-saving measures.\n```json\n{\n  \"tripName\": \"Las Vegas Getaway - Budget Edition (3 Days)\",\n  \"travelers\": \"Couple\",\n  \"budget\": \"Cheap\",\n  \"location\": \"Las Vegas, NV\",\n  \"currency\": \"USD\",\n  \"hotels\": [\n    {\n      \"hotelName\": \"Circus Circus Hotel & Casino\",\n      \"hotelAddress\": \"2880 S Las Vegas Blvd, Las Vegas, NV 89109\",\n      \"price\": 40,\n      \"hotelImageUrl\": \"https://www.kayak.com/rimg/himg/f5/1a/65/ice-20805-77942296_360x240-074457.jpg?width=720&height=576&crop=true\",\n      \"geoCoordinates\": {\n        \"latitude\": 36.1379,\n        \"longitude\": -115.1648\n      },\n      \"rating\": 3.5,\n      \"description\": \"An iconic, budget-friendly hotel on the Strip with a circus theme, including free circus acts, a large amusement park (Adventuredome), and multiple dining options.  Rooms are basic but clean and functional.\"\n    },\n    {\n      \"hotelName\": \"Stratosphere Hotel, Casino & Tower\",\n      \"hotelAddress\": \"2000 S Las Vegas Blvd, Las Vegas, NV 89104\",\n      \"price\": 45,\n      \"hotelImageUrl\": \"https://www.kayak.com/rimg/himg/d8/a4/b2/ice-7464-10152442_360x240-881642.jpg?width=720&height=576&crop=true\",\n      \"geoCoordinates\": {\n        \"latitude\": 36.1475,\n        \"longitude\": -115.1556\n      },\n      \"rating\": 3.7,\n      \"description\": \"Located at the north end of the Strip, the Stratosphere offers great views from its tower (for a fee), a casino, and thrill rides.  Rooms are simple, but the price is usually very competitive.  Consider transportation costs to other parts of the Strip.\"\n    },\n    {\n      \"hotelName\": \"Excalibur Hotel & Casino\",\n      \"hotelAddress\": \"3850 S Las Vegas Blvd, Las Vegas, NV 89109\",\n      \"price\": 55,\n      \"hotelImageUrl\": \"https://www.kayak.com/rimg/himg/e3/40/a9/ice-11144-16243540_360x240-190679.jpg?width=720&height=576&crop=true\",\n      \"geoCoordinates\": {\n        \"latitude\": 36.0986,\n        \"longitude\": -115.1744\n      },\n      \"rating\": 4.0,\n      \"description\": \"A medieval-themed hotel, Excalibur is centrally located on the Strip and offers affordable rooms. It's connected to Luxor and Mandalay Bay via walkways and tram, providing easy access to more attractions.  Features include multiple pools, restaurants, and shows.\"\n    }\n  ],\n  \"itinerary\": {\n    \"day1\": {\n      \"theme\": \"Exploring the Strip (South End) & Free Attractions\",\n      \"bestTimeToVisit\": \"Afternoon/Evening\",\n      \"places\": [\n        {\n          \"placeName\": \"Welcome to Las Vegas Sign\",\n          \"placeDetails\": \"Iconic photo opportunity.  Expect a line, especially during peak hours.\",\n          \"placeImageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Welcome_to_Las_Vegas_sign.JPG/1280px-Welcome_to_Las_Vegas_sign.JPG\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.0828,\n            \"longitude\": -115.1730\n          },\n          \"ticketPricing\": \"Free\",\n          \"rating\": 4.5,\n          \"time\": \"30-45 minutes\",\n          \"travelTime\": \"Depends on hotel location, but plan for 15-30 minutes by car/rideshare or 45-60 minutes walking from the central Strip.\"\n        },\n        {\n          \"placeName\": \"Bellagio Conservatory & Botanical Garden\",\n          \"placeDetails\": \"Stunning free display of flowers and plants, changing seasonally.\",\n          \"placeImageUrl\": \"https://www.bellagio.com/content/dam/MGM/bellagio/conservatory-and-botanical-garden/2024/Spring/Bellagio-Conservatory-Botanical-Gardens-Chinese-New-Year-2024.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.1127,\n            \"longitude\": -115.1761\n          },\n          \"ticketPricing\": \"Free\",\n          \"rating\": 4.8,\n          \"time\": \"1-2 hours\",\n          \"travelTime\": \"Walking distance from most central Strip hotels.\"\n        },\n        {\n          \"placeName\": \"Fountains of Bellagio\",\n          \"placeDetails\": \"Spectacular free water show set to music. Shows every 30 minutes in the afternoon and every 15 minutes in the evening.\",\n          \"placeImageUrl\": \"https://media.cntraveler.com/photos/58ff979ca0a4305e95c30374/master/pass/GettyImages-499711202.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.1129,\n            \"longitude\": -115.1743\n          },\n          \"ticketPricing\": \"Free\",\n          \"rating\": 4.9,\n          \"time\": \"30 minutes (to watch a couple of shows)\",\n          \"travelTime\": \"Walking distance from Bellagio Conservatory.\"\n        },\n        {\n          \"placeName\": \"High Roller Observation Wheel\",\n          \"placeDetails\": \"Enjoy breathtaking 360-degree views of Las Vegas from the world's tallest observation wheel. Consider going during happy hour.\",\n          \"placeImageUrl\": \"https://www.caesars.com/content/dam/oneline/entertainment/high-roller/high-roller-homepage-carousel-02.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.1171,\n            \"longitude\": -115.1690\n          },\n          \"ticketPricing\": \"37 USD\",\n          \"rating\": 4.5,\n          \"time\": \"1 hours\",\n          \"travelTime\": \"Taxi/Uber from fountains of Bellagio\"\n        }\n      ]\n    },\n    \"day2\": {\n      \"theme\": \"Downtown Las Vegas & Budget-Friendly Entertainment\",\n      \"bestTimeToVisit\": \"Afternoon/Evening\",\n      \"places\": [\n        {\n          \"placeName\": \"Fremont Street Experience\",\n          \"placeDetails\": \"A pedestrian mall with a giant video screen canopy showing free light shows.  Lots of street performers and cheap eats.\",\n          \"placeImageUrl\": \"https://media.cntraveler.com/photos/5a903cc3a9c48c7418e18314/master/pass/Fremont-Street-Experience_GettyImages-639257394.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.1703,\n            \"longitude\": -115.1420\n          },\n          \"ticketPricing\": \"Free (except for specific attractions)\",\n          \"rating\": 4.6,\n          \"time\": \"3-4 hours\",\n          \"travelTime\": \"30-45 minutes by car/rideshare from the Strip.  Consider using the Deuce bus for a cheaper option (but longer travel time).\"\n        },\n        {\n          \"placeName\": \"Container Park\",\n          \"placeDetails\": \"Unique shopping and dining area made from repurposed shipping containers.  Features a playground and live entertainment.\",\n          \"placeImageUrl\": \"https://downtowncontainerpark.com/wp-content/uploads/2022/08/DCP_WebsiteCarousel_August2022-01-2048x1152.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.1673,\n            \"longitude\": -115.1404\n          },\n          \"ticketPricing\": \"Free to enter; costs for food/drinks/activities\",\n          \"rating\": 4.3,\n          \"time\": \"2-3 hours\",\n          \"travelTime\": \"Walking distance from Fremont Street Experience.\"\n        },\n        {\n          \"placeName\": \"Gold and Silver Pawn Shop\",\n          \"placeDetails\": \"made famous by the reality TV show Pawn Stars, is a Las Vegas icon. While you might not score a treasure, it's fun to see the unusual items that come through its doors.\",\n          \"placeImageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Gold_%26_Silver_Pawn_Shop.jpg/640px-Gold_%26_Silver_Pawn_Shop.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.1783,\n            \"longitude\": -115.1420\n          },\n          \"ticketPricing\": \"Free\",\n          \"rating\": 4.3,\n          \"time\": \"1-2 hours\",\n          \"travelTime\": \"Walking distance from Container Park.\"\n        }\n      ]\n    },\n    \"day3\": {\n      \"theme\": \"Eiffel tower and Cheap activities\",\n      \"bestTimeToVisit\": \"Afternoon/Evening\",\n      \"places\": [\n        {\n          \"placeName\": \"Eiffel Tower Viewing Deck\",\n          \"placeDetails\": \"Enjoy a unique and panoramic view of the Las Vegas Strip from the Eiffel Tower at Paris Las Vegas.\",\n          \"placeImageUrl\": \"https://www.caesars.com/content/dam/oneline/entertainment/eiffel-tower/eiffel-tower-homepage-carousel-01.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.1122,\n            \"longitude\": -115.1735\n          },\n          \"ticketPricing\": \"30 USD\",\n          \"rating\": 4.7,\n          \"time\": \"1-2 hours\",\n          \"travelTime\": \"Taxi/Uber from Gold and Silver Pawn Shop.\"\n        },\n        {\n          \"placeName\": \"Luxor Sky Beam\",\n          \"placeDetails\": \"The Luxor Sky Beam is a powerful spotlight located atop the Luxor Hotel and Casino in Las Vegas, Nevada. It is the strongest beam of light in the world, emitting 42.3 billion candlepower.\",\n          \"placeImageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Luxor_sky_beam_2015.jpg/640px-Luxor_sky_beam_2015.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.0956,\n            \"longitude\": -115.1744\n          },\n          \"ticketPricing\": \"Free\",\n          \"rating\": 4.2,\n          \"time\": \"1-2 hours\",\n          \"travelTime\": \"Taxi/Uber from the Eiffel tower\"\n        },\n        {\n          \"placeName\": \"Mandalay Bay Shark Reef\",\n          \"placeDetails\": \"One of the largest aquariums in North America, Shark Reef boasts more than 2,000 animals, including sharks, rays, sea turtles, and piranhas.\",\n          \"placeImageUrl\": \"https://res.cloudinary.com/simpleview/image/upload/crm/lasvegas/Shark-Reef---Mandalay-Bay_725x430_4d0e1874-5056-b365-4b34560c55b60b0c.jpg\",\n          \"geoCoordinates\": {\n            \"latitude\": 36.0925,\n            \"longitude\": -115.1740\n          },\n          \"ticketPricing\": \"29 USD\",\n          \"rating\": 4.4,\n          \"time\": \"1-2 hours\",\n          \"travelTime\": \"Walking distance from the Luxor Sky Beam\"\n        }\n      ]\n    }\n  },\n  \"notes\": [\n    \"Prices for hotels and attractions are estimates and can fluctuate.  Book in advance for better deals.\",\n    \"Consider purchasing a multi-day bus pass for transportation along the Strip and to Downtown Las Vegas.\",\n    \"Take advantage of free activities like walking the Strip, watching the Bellagio fountains, and exploring casino interiors.\",\n    \"Look for happy hour deals for discounted food and drinks.\",\n    \"Pack comfortable shoes - you'll be doing a lot of walking!\",\n    \"Stay hydrated, especially during the hot summer months.\"\n  ]\n}\n```\n\n**Key Considerations for a Budget Trip:**\n\n*   **Hotel Choice:** I've given hotels that are generally cheaper. Prices fluctuate *wildly* in Vegas depending on the day of the week and events, so check different dates. Book in advance.\n*   **Transportation:** Walking is your friend! But for longer distances, consider the bus system. Rideshares can add up quickly.\n*   **Food:** Avoid eating in the casinos. Look for cheaper options like fast food, food courts, or grocery stores for snacks and breakfast.\n*   **Entertainment:** Focus on free attractions and activities.  Limit gambling and expensive shows.  Look for free events and promotions.\n\nThis JSON provides a solid framework. Remember to tailor it to your specific interests and preferences. Enjoy your trip!\n"},
-        ],
-      },
-    ],
+async function main() {
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
   });
+  const config = {
+    responseMimeType: 'text/plain',
+  };
+  const model = 'gemini-1.5-flash';
+  const contents = [
+    {
+      role: 'user',
+      parts: [
+        {
+          text: `Generate Travel Plan for Location: Las Vegas, for 3 Days for Couple with a Cheap budget, Give me a Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating,Time ttravel each of the location for 3 days with each day plan with best time to visit in JSON format.`,
+        },
+      ],
+    },
+    {
+      role: 'model',
+      parts: [
+        {
+          text: `I cannot directly access and display images or real-time pricing information for hotels.  Hotel prices fluctuate constantly.  Also, I don't have access to a comprehensive image database.  Therefore, I cannot provide the image URLs or precise pricing.  However, I can give you a JSON structure that you can populate with this information using online travel booking sites and map services like Google Maps.
 
-  // // TODO: Following code needs to be updated for client-side apps.
-  // const candidates = result.response.candidates;
-  // for(let candidate_index = 0; candidate_index < candidates.length; candidate_index++) {
-  //   for(let part_index = 0; part_index < candidates[candidate_index].content.parts.length; part_index++) {
-  //     const part = candidates[candidate_index].content.parts[part_index];
-  //     if(part.inlineData) {
-  //       try {
-  //         const filename = `output_${candidate_index}_${part_index}.${mime.extension(part.inlineData.mimeType)}`;
-  //         fs.writeFileSync(filename, Buffer.from(part.inlineData.data, 'base64'));
-  //         console.log(`Output written to: ${filename}`);
-  //       } catch (err) {
-  //         console.error(err);
-  //       }
-  //     }
-  //   }
-  // }
+\`\`\`json
+{
+  "tripName": "Las Vegas Budget Getaway for Couples (3 Days)",
+  "budget": "Cheap",
+  "travelers": 2,
+  "hotels": [
+    {
+      "hotelName": "Hotel Name 1 (Example)",
+      "hotelAddress": "123 Example Street, Las Vegas, NV",
+      "price": "$$$ (replace with actual price range)", 
+      "hotelImageUrl": "URL_TO_HOTEL_IMAGE (replace with image URL)",
+      "geoCoordinates": {
+        "latitude": 36.1699,
+        "longitude": -115.1398
+      },
+      "rating": 3.8,
+      "description": "A basic hotel with clean rooms and a convenient location.  May lack amenities."
+    },
+    {
+      "hotelName": "Hotel Name 2 (Example)",
+      "hotelAddress": "456 Another Street, Las Vegas, NV",
+      "price": "$$$ (replace with actual price range)",
+      "hotelImageUrl": "URL_TO_HOTEL_IMAGE (replace with image URL)",
+      "geoCoordinates": {
+        "latitude": 36.1699,
+        "longitude": -115.1398
+      },
+      "rating": 4.2,
+      "description": "Slightly more upscale, but still budget-friendly. May offer a pool."
+    },
+    {
+      "hotelName": "Hotel Name 3 (Example)",
+      "hotelAddress": "789 YetAnother Street, Las Vegas, NV",
+      "price": "$$$ (replace with actual price range)",
+      "hotelImageUrl": "URL_TO_HOTEL_IMAGE (replace with image URL)",
+      "geoCoordinates": {
+        "latitude": 36.1699,
+        "longitude": -115.1398
+      },
+      "rating": 3.5,
+      "description": "Offers free breakfast, which can save money."
+    }
+  ],
+  "itinerary": {
+    "day1": [
+      {
+        "placeName": "The Strip (Walking Tour)",
+        "placeDetails": "Walk the length of the Strip, admiring the hotels and atmosphere.",
+        "placeImageUrl": "URL_TO_STRIP_IMAGE (replace with image URL)",
+        "geoCoordinates": { "latitude": 36.1091, "longitude": -115.1726 },
+        "ticketPricing": "Free",
+        "rating": 4.5,
+        "travelTime": "Variable, depending on how far you walk"
+      },
+      {
+        "placeName": "Fremont Street Experience (Evening)",
+        "placeDetails": "See the Viva Vision light show.",
+        "placeImageUrl": "URL_TO_FREMONT_STREET_IMAGE (replace with image URL)",
+        "geoCoordinates": { "latitude": 36.1672, "longitude": -115.1424 },
+        "ticketPricing": "Free (show)",
+        "rating": 4.2,
+        "travelTime": "30 minutes by taxi/rideshare"
+      }
+    ],
+    "day2": [
+      {
+        "placeName": "Red Rock Canyon National Conservation Area",
+        "placeDetails": "Hike or drive through scenic desert landscape.",
+        "placeImageUrl": "URL_TO_RED_ROCK_IMAGE (replace with image URL)",
+        "geoCoordinates": { "latitude": 36.1852, "longitude": -115.7777},
+        "ticketPricing": "$15 per vehicle",
+        "rating": 4.7,
+        "travelTime": "45 minutes by car"
+      },
+      {
+        "placeName": "In-N-Out Burger",
+        "placeDetails": "Enjoy a classic West Coast burger (Budget-friendly meal)",
+        "placeImageUrl": "URL_TO_IN_N_OUT_IMAGE (replace with image URL)",
+        "geoCoordinates": { "latitude": 36.1151, "longitude": -115.1741 },
+        "ticketPricing": "$10-15 per person",
+        "rating": 4.0,
+        "travelTime": "variable"
+      }
+    ],
+    "day3": [
+      {
+        "placeName": "Seven Magic Mountains",
+        "placeDetails": "Colorful art installation outside of the city (Requires transportation)",
+        "placeImageUrl": "URL_TO_SEVEN_MAGIC_MOUNTAIN_IMAGE (replace with image URL)",
+        "geoCoordinates": { "latitude": 36.0006, "longitude": -114.9577 },
+        "ticketPricing": "Free",
+        "rating": 4.4,
+        "travelTime": "30-45 minutes by car"
+      },
+      {
+        "placeName": "Downtown Container Park",
+        "placeDetails": "Unique shopping and dining area in repurposed shipping containers.",
+        "placeImageUrl": "URL_TO_CONTAINER_PARK_IMAGE (replace with image URL)",
+        "geoCoordinates": { "latitude": 36.1645, "longitude": -115.1445},
+        "ticketPricing": "Free entry",
+        "rating": 4.1,
+        "travelTime": "15-20 minutes by car from Strip"
+      }
+
+    ]
+  }
+}
+\`\`\`
+
+**To use this:**
+
+1. **Find Hotels:** Use websites like Booking.com, Expedia, Kayak, etc., to search for hotels in Las Vegas within your budget. Fill in the \`hotel\` array with the details you find.
+2. **Find Images:** Search for images of each hotel and location on Google Images or similar and paste the URLs into the JSON.
+3. **Get Geocoordinates:** Use Google Maps to find the latitude and longitude for each location and hotel.
+4. **Check Prices:**  Prices for attractions can change, so double-check before you go.
+
+
+Remember to factor in transportation costs (taxis, rideshares, or the cost of renting a car).  Walking is a great option for exploring the Strip, but consider rideshares for more distant locations.  Enjoy your trip!
+`,
+        },
+      ],
+    },
+    {
+      role: 'user',
+      parts: [
+        {
+          text: `INSERT_INPUT_HERE`,
+        },
+      ],
+    },
+  ];
+
+  const response = await ai.models.generateContentStream({
+    model,
+    config,
+    contents,
+  });
+  for await (const chunk of response) {
+    console.log(chunk.text);
+  }
+}
+main();
