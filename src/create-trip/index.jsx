@@ -5,10 +5,22 @@ import { chatSession } from '@/service/AiModel';
 import React, { useEffect, useState } from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { toast } from 'sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 function CreateTrip() {
   const [place, setPlace] = useState();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState([]);
+  const [openDailog,setOpenDailog]=useState([false])
 
   const handleInputChange = (name, value) => {
     if (name === 'noOfDays' && value > 5) {
@@ -25,7 +37,19 @@ function CreateTrip() {
     console.log('FormData', formData);
   }, [formData]);
 
+  const login=useGoogleLogin({
+    onSuccess:(codeResp)=>console.log(codeResp),
+    onError:(error)=>console.log(error)
+  })
+
   const OnGenerateTrip = async() => {
+
+    const user=localStorage.getItem('user');
+    if(!user)
+    {
+      setOpenDailog(true)
+      return ;
+    }
     if (
       !formData?.location ||
       !formData?.budget ||
@@ -46,7 +70,18 @@ function CreateTrip() {
     console.log('FINAL_PROMPT', FINAL_PROMPT);
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
-  };
+  }
+
+  const GetUserProfile=(tokenInfo)=>{
+    axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.acess_token}`,{
+      headers:{
+        Authorization:`Bearer ${tokenInfo?.access_token}`,
+        Accept:'Application/json'
+      }
+    }).then((resp)=>{
+      console.log(resp);
+    })
+
 
   return (
     <div className='sm:px-10 md:px-32 lg:px-56 xl:p-10 px-5 mt-10'>
@@ -123,6 +158,26 @@ function CreateTrip() {
       <div className='my-10 justify-end flex'>
         <Button onClick={OnGenerateTrip}>Generate Trip</Button>
       </div>
+      <Dialog open={openDailog}>
+      
+  <DialogContent>
+    <DialogHeader>
+      
+      <DialogDescription>
+           <imag src="/logo.svg"/>
+           <h2 className='font-bold text-lg mt-7'>Sign In With Google</h2>
+           <p>Sign in to the App with Google authentication securely</p>
+
+          <Button
+          onClick={login}
+          className="w-full mt-5 flex gap-4 items-center">
+          <FcGoogle className='h-7 w-7'/>
+          Sign In With Google</Button>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+
     </div>
   );
 }
