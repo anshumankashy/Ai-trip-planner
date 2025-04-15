@@ -1,14 +1,40 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import { BrowserRouter } from 'react-router-dom'
+import './index.css'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import CreateTrip from './create-trip/index.jsx'
+import { Toaster } from './components/ui/sonner.jsx'
+import Viewtrip from './view-trip/[tripId]/index.jsx'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import Header from './components/ui/Custom/Header.jsx'
+import MyTrips from './my-trips/index.jsx'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-</StrictMode>
+const router = createBrowserRouter([{
+  path: '/',
+  element: <App />
+},
+{
+  path:'/create-trip',
+  element: <CreateTrip />
+},
+{
+  path: '/view-trip/:tripId',
+  element: <Viewtrip />
+},
+{
+  path: '/my-trips',
+  element: <MyTrips />
+}
 
+])
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
+      <Header />
+      <Toaster/>
+      <RouterProvider router={router}/>
+    </GoogleOAuthProvider>
+  </React.StrictMode>,
 )
