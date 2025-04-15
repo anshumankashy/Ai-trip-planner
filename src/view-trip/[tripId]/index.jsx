@@ -14,7 +14,7 @@ function ViewTrip() {
   },[tripId])
 
   const GetTripData = async() => {
-    const docRef= doc(db, 'AiTrips', tripId);
+    const docRef= doc(db, 'AITrips', tripId);
     const docSnap = await getDoc(docRef);
 
     if(docSnap.exists()){
@@ -29,7 +29,7 @@ function ViewTrip() {
   return (
     <div className="p-10 md:px-20 lg:px-44 xl:px-56">
       {/* Information Section */}
-      <InfoSection/>
+      <InfoSection trip={trip}/>
       {/* Recommanded Hotel */}
       {/* Daily Plan */}
       {/* Footer */}

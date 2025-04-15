@@ -1,52 +1,26 @@
-import React from 'react';
+import { Button } from '@/components/ui/button'
+import React from 'react'
+import { IoIoSend } from 'react-icons/io'
 
-function InfoSection({ trip }) {
-  // Handle loading state
-  if (!trip) {
-    return <p className="text-center py-4">Loading trip information...</p>;
-  }
-
-  // Extract data directly from trip object
-  const location = trip.location || trip.destination || 'Unknown Destination';
-  const noOfDays = trip.noOfDays || trip.duration || 0;
-  const budget = trip.budget || 'Not specified';
-  const travelers = trip.travelers || trip.travelingWith || 'Not specified';
-
+function InfoSection({trip}) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-      <div className="relative h-[340px] w-full mb-6 rounded-lg overflow-hidden">
-        <img
-          src={trip.image || '/placeholder.jpg'}
-          className="h-full w-full object-cover"
-          alt={`Trip to ${location}`}
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-          <h1 className="text-white text-3xl font-bold">{location}</h1>
-        </div>
-      </div>
+    <div>
+      <img src="/placeholder.jpg" className='h-[340px] w-full object-cover rounded-lg' />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <h3 className="font-semibold text-blue-800">Duration</h3>
-          <p className="text-2xl font-bold mt-2">
-            {noOfDays} day{noOfDays !== 1 ? 's' : ''}
-          </p>
-        </div>
-        <div className="bg-green-50 p-4 rounded-lg">
-          <h3 className="font-semibold text-green-800">Budget</h3>
-          <p className="text-2xl font-bold mt-2">
-            {budget}
-          </p>
-        </div>
-        <div className="bg-purple-50 p-4 rounded-lg">
-          <h3 className="font-semibold text-purple-800">Travelers</h3>
-          <p className="text-2xl font-bold mt-2">
-            {travelers}
-          </p>
+<div className='flex justify-between items-center'>
+      <div className='my-5 flex flex-col gap-2'>
+        <h2 className='fond-bold text-2xl'>{trip?.userSelection?.location?.label}</h2>
+
+        <div className='flex gap-5'>
+          <h2 className='p-1 px-3 bg-gray-300 rounded-lg text-sm'>📅 {trip.userSelection?.noOfDays} Day</h2>
+          <h2 className='p-1 px-3 bg-gray-300 rounded-lg text-sm'>💸 {trip.userSelection?.budget} Day</h2>
+          <h2 className='p-1 px-3 bg-gray-300 rounded-lg text-sm'>🧑  No. of Travellers: {trip.userSelection?.travelers}</h2>
         </div>
       </div>
+      <Button> <IoIoSend/> </Button>
     </div>
-  );
+    </div>
+  )
 }
 
-export default InfoSection;
+export default InfoSection

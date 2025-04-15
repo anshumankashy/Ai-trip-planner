@@ -74,69 +74,51 @@ function CreateTrip() {
   };
 
   const OnGenerateTrip = async () => {
-    try {
-      const user = localStorage.getItem('user');
-      if (!user) {
-        setOpenDialog(true);
-        return;
-      }
 
-      if (
-        !formData?.location ||
-        !formData?.budget ||
-        !formData?.travelers ||
-        !formData?.noOfDays ||
-        formData?.noOfDays > 5
-      ) {
-        toast.error("Please fill all the fields correctly to continue");
-        return;
-      }
-      
-      setLoading(true);
-
-      const FINAL_PROMPT = AI_PROMPT
-        .replace('{location}', formData?.location?.label)
-        .replace('{totalDays}', formData?.noOfDays)
-        .replace('{travelers}', formData?.travelers)
-        .replace('{budget}', formData?.budget);
-
-      const result = await chatSession.sendMessage(FINAL_PROMPT);
-      const tripText = result?.response?.text();
-      
-      if (!tripText) {
-        throw new Error("No trip data received from AI");
-      }
-      
-      await SaveAITrip(tripText);
-    } catch (error) {
-      console.error("Error generating trip:", error);
-      toast.error("Failed to generate trip. Please try again.");
-    } finally {
-      setLoading(false);
+    const user = localStorage.getItem('user');
+    if (!user) {
+      setOpenDialog(true);
+      return;
     }
+
+    if (
+      !formData?.location ||
+      !formData?.budget ||
+      !formData?.travelers ||
+      !formData?.noOfDays ||
+      formData?.noOfDays > 5
+    ) {
+      toast.error("Please fill all the fields correctly to continue");
+      return;
+    }
+
+    setLoading(true);
+
+    const FINAL_PROMPT = AI_PROMPT
+      .replace('{location}', formData?.location?.label)
+      .replace('{totalDays}', formData?.noOfDays)
+      .replace('{travelers}', formData?.travelers)
+      .replace('{budget}', formData?.budget);
+
+    const result = await chatSession.sendMessage(FINAL_PROMPT);
+    console.log("--", result?.response?.text());
+    setLoading(false);
+    SaveAITrip(result?.response?.text())
   };
-  
+
   const SaveAITrip = async (TripData) => {
-    try {
-      setLoading(true);
-      const user = JSON.parse(localStorage.getItem('user'));
-      const docId = Date.now().toString();
-      
-      await setDoc(doc(db, "AITrip", docId), {
-        userSelection: formData,
-        tripData: TripData,
-        userEmail: user?.email,
-        id: docId,
-        createdAt: new Date().toISOString() // Added timestamp for sorting
-      });
-      
-      navigate('view-trip/' + docId);
-    } catch (error) {
-      console.error("Error saving trip:", error);
-      toast.error("Failed to save trip. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    setLoading(true);
+    const user = JSON.parse(localStorage.getItem('user'));
+    const docId = Date.now().toString()
+    await setDoc(doc(db, "AITrips", docId), {
+      userSelection: formData,
+      tripData: JSON.parse(TripData),
+      userEmail: user?.email,
+      id: docId,
+    });
+    setLoading(false);
+    navigate('/create-trip/view-trip/' + docId);
+    toast.success("Trip Generated Successfully");
   };
 
   return (
@@ -183,9 +165,8 @@ function CreateTrip() {
             <div
               key={index}
               onClick={() => handleInputChange('budget', item.title)}
-              className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg transition-all ${
-                formData.budget === item.title ? 'shadow-lg border-blue-500 bg-blue-50' : ''
-              }`}
+              className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg transition-all ${formData.budget === item.title ? 'shadow-lg border-blue-500 bg-blue-50' : ''
+                }`}
             >
               <h2 className='text-4xl'>{item.icon}</h2>
               <h2 className='font-bold text-lg'>{item.title}</h2>
@@ -204,9 +185,8 @@ function CreateTrip() {
             <div
               key={index}
               onClick={() => handleInputChange('travelers', item.title)}
-              className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg transition-all ${
-                formData.travelers === item.title ? 'shadow-lg border-blue-500 bg-blue-50' : ''
-              }`}
+              className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg transition-all ${formData.travelers === item.title ? 'shadow-lg border-blue-500 bg-blue-50' : ''
+                }`}
             >
               <h2 className='text-4xl'>{item.icon}</h2>
               <h2 className='font-bold text-lg'>{item.title}</h2>
