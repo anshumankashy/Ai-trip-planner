@@ -7,6 +7,8 @@ import InfoSection from '../components/InfoSection';
 import Hotels from '../components/Hotels';
 import PlacesToVisit from '../components/PlacesToVisit';
 import Footer from '../components/Footer';
+import TravelTips from '../components/TravelTips';
+import Experiences from '../components/Experiences';
 
 function Viewtrip() {
     const { tripId } = useParams();
@@ -38,11 +40,16 @@ function Viewtrip() {
             {/* Information Section */}
             <InfoSection trip={trip} />
 
-            {/* Recommended Hotels */}
-            <Hotels trip={trip} />
+           
 
             {/* Daily Plan */}
             <PlacesToVisit trip={trip} />
+
+            {/* Experiencees */}
+            <Experiences trip={trip} />
+
+            {/* Travel Tips */}
+            <TravelTips trip={trip} />
 
             {/* Footer */}
             <Footer trip={trip} />
