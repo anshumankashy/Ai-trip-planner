@@ -147,7 +147,7 @@ function CreateTrip() {
           type='number'
           min="1"
           max="5"
-          className="w-32"
+          className="w-full"
           onChange={(e) => handleInputChange('noOfDays', parseInt(e.target.value))}
         />
       </div>
