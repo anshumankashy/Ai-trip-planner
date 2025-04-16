@@ -21,12 +21,12 @@ function Header() {
 
   useEffect(() => {
     console.log(user)
-  })
+  }, [user]);
 
   const login = useGoogleLogin({
     onSuccess: (res) => GetUserProfile(res),
     onError: (error) => console.log(error)
-  })
+  });
 
   const GetUserProfile = (tokenInfo) => {
     axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo.access_token}`, {
@@ -45,50 +45,55 @@ function Header() {
   }
 
   return (
-    <div className='shadow-sm flex justify-between items-center px-6'>
-      <img src="/logo.svg" alt="Logo" />
-      <div>
-        {user ?
-          <div className='flex items-center gap-3'>
+    <div className='shadow-sm flex justify-between items-center px-4 sm:px-6 py-4 flex-wrap gap-y-4'>
+      <img src="/logo.svg" alt="Logo" className="h-10 w-auto" />
+
+      <div className='flex items-center gap-3 flex-wrap'>
+        {user ? (
+          <>
             <a href="/create-trip">
-            <Button variant="outline" className="rounded-full">+ Create Trip</Button>
+              <Button variant="outline" className="rounded-full text-sm px-4 py-2">+ Create Trip</Button>
             </a>
             <a href="/my-trips">
-            <Button variant="outline" className="rounded-full">My Trips</Button>
+              <Button variant="outline" className="rounded-full text-sm px-4 py-2">My Trips</Button>
             </a>
             <Popover>
-              <PopoverTrigger>             
-                <img src={user?.picture} alt="" className='h-[35px] w-[35px] rounded-full' />
+              <PopoverTrigger>
+                <img src={user?.picture} alt="User" className='h-[35px] w-[35px] rounded-full cursor-pointer' />
               </PopoverTrigger>
-              <PopoverContent>
-                <h2 className='cursor-pointer' onClick={()=>{
+              <PopoverContent className='w-32'>
+                <h2 className='cursor-pointer text-sm text-center' onClick={() => {
                   googleLogout();
                   localStorage.clear();
                   window.location.reload();
-                }}>Logout</h2>
+                }}>
+                  Logout
+                </h2>
               </PopoverContent>
             </Popover>
-
-          </div> : <Button onClick={()=>setOpenDialog(true)}>Sign In</Button>}
+          </>
+        ) : (
+          <Button onClick={() => setOpenDialog(true)} className="text-sm px-4 py-2">Sign In</Button>
+        )}
       </div>
 
-      <Dialog open={openDialog}>
-        <DialogContent>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogDescription>
-              <img src="/logo.svg" alt="logo" width="100px" className='items-center' />
-              <h2 className='font-bold text-lg'>Sign In to check out your travel plan</h2>
-              <p>Sign in to the App with Google authentication securely</p>
+            <DialogDescription className="space-y-4 text-center">
+              <img src="/logo.svg" alt="logo" width="100px" className="mx-auto" />
+              <h2 className="font-bold text-lg">Sign In to check out your travel plan</h2>
+              <p className="text-sm text-gray-500">Sign in to the App with Google authentication securely</p>
               <Button
                 onClick={login}
-                className="w-full mt-6 flex gap-4 items-center">
-                <FcGoogle className="h-7 w-7" />Sign in With Google
+                className="w-full mt-4 flex gap-4 items-center justify-center">
+                <FcGoogle className="h-6 w-6" />
+                Sign in With Google
               </Button>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
-
     </div>
   )
 }
